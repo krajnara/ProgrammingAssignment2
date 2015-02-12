@@ -1,5 +1,6 @@
 ## The functions in this file uses the R scoping rules to cache the 
-## inverse of a matrix rather than compute it repeatedly. 
+## inverse of a matrix rather than compute it repeatedly. As long as
+## the matrix does not change, the cached inverse will be returned. 
 
 ## This function creates a matrix that can cache its inverse and 
 ## provides access methods to get the original and inverse matrix.
@@ -37,10 +38,11 @@ cacheSolve <- function(x, ...) {
     # get the inverse first. 
     inv <- x$getinverse()
     if(!is.null(inv)) {
+        ## Cache exists, return the cache.
         message("Returning the cached inverse")
         return(inv)
     }
-    ## Inverse does not exist. compute and set.
+    ## Inverse does not exist. Compute and set.
     ori <- x$get()
     inv <- solve(ori)
     ## Cache the inverse now. 
